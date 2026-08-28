@@ -1,6 +1,6 @@
 import 'server-only'
 
-import {createClient, type QueryParams} from 'next-sanity'
+import {createClient, type ClientReturn, type QueryParams} from 'next-sanity'
 
 import {apiVersion, dataset, projectId} from '../env'
 
@@ -24,11 +24,11 @@ export type SanityFetchOptions = {
   tags?: string[]
 }
 
-export async function sanityFetch<TResult>(
-  query: string,
+export async function sanityFetch<const TQuery extends string>(
+  query: TQuery,
   params: QueryParams = {},
   {revalidate = 60, tags = []}: SanityFetchOptions = {},
-): Promise<TResult> {
+): Promise<ClientReturn<TQuery>> {
   const requestOptions = {
     perspective: 'published' as const,
     stega: false as const,
@@ -37,5 +37,5 @@ export async function sanityFetch<TResult>(
       : {next: {revalidate, tags}}),
   }
 
-  return client.fetch<TResult>(query, params, requestOptions)
+  return client.fetch(query, params, requestOptions)
 }

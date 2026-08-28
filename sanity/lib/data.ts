@@ -5,7 +5,7 @@ import {
   CATEGORIES_QUERY,
   CATEGORY_BY_SLUG_QUERY,
   COURSE_BY_SLUG_QUERY,
-  COURSE_CONTEXT_FOR_LESSON_QUERY,
+  COURSE_CONTEXTS_FOR_LESSON_QUERY,
   COURSE_SLUGS_QUERY,
   COURSES_QUERY,
   INSTRUCTOR_BY_SLUG_QUERY,
@@ -16,25 +16,24 @@ import {
 import type {
   Category,
   CategoryWithCourses,
-  Course,
-  CourseContext,
+  CourseCatalog,
+  CourseModule,
   Instructor,
   InstructorWithCourses,
-  Lesson,
   LessonWithContext,
   OrderedCourse,
   OrderedModule,
   SlugRecord,
 } from './types'
 
-type WithDerivedModules<T extends {modules: CourseContext['modules']}> = Omit<
+type WithDerivedModules<T extends {modules: CourseModule[] | null}> = Omit<
   T,
   'modules'
 > & {
   modules: OrderedModule[]
 }
 
-function withDerivedOrder<T extends {modules: CourseContext['modules']}>(
+function withDerivedOrder<T extends {modules: CourseModule[] | null}>(
   value: T,
 ): WithDerivedModules<T> {
   return {
@@ -52,41 +51,42 @@ function withDerivedOrder<T extends {modules: CourseContext['modules']}>(
   } as WithDerivedModules<T>
 }
 
-export async function getCourses(): Promise<OrderedCourse[]> {
-  const courses = await sanityFetch<Course[]>(COURSES_QUERY, {}, {tags: ['course']})
-  return courses.map((course) => withDerivedOrder(course))
+export async function getCourses(): Promise<CourseCatalog[]> {
+  return sanityFetch(COURSES_QUERY, {}, {tags: ['course']})
 }
 
 export async function getCourseBySlug(
   slug: string,
 ): Promise<OrderedCourse | null> {
-  const course = await sanityFetch<Course | null>(
-    COURSE_BY_SLUG_QUERY,
-    {slug},
-    {tags: ['course', `course:${slug}`]},
-  )
+  const course = await sanityFetch(COURSE_BY_SLUG_QUERY, {slug}, {
+    tags: ['course', `course:${slug}`],
+  })
 
   return course ? withDerivedOrder(course) : null
 }
 
 export async function getLessonBySlug(
   slug: string,
+  courseSlug?: string,
 ): Promise<LessonWithContext | null> {
-  const lesson = await sanityFetch<Lesson | null>(
-    LESSON_BY_SLUG_QUERY,
-    {slug},
-    {tags: ['lesson', `lesson:${slug}`]},
-  )
+  const lesson = await sanityFetch(LESSON_BY_SLUG_QUERY, {slug}, {
+    tags: ['lesson', `lesson:${slug}`],
+  })
 
   if (!lesson) {
     return null
   }
 
-  const course = await sanityFetch<CourseContext | null>(
-    COURSE_CONTEXT_FOR_LESSON_QUERY,
+  const courses = await sanityFetch(COURSE_CONTEXTS_FOR_LESSON_QUERY,
     {lessonId: lesson._id},
     {tags: ['course', `lesson:${lesson._id}`]},
   )
+
+  const course = courseSlug
+    ? courses.find((candidate) => candidate.slug === courseSlug) ?? null
+    : courses.length === 1
+      ? courses[0]
+      : null
 
   if (!course) {
     return {
@@ -116,37 +116,35 @@ export async function getLessonBySlug(
 }
 
 export async function getInstructors(): Promise<Instructor[]> {
-  return sanityFetch<Instructor[]>(INSTRUCTORS_QUERY, {}, {tags: ['instructor']})
+  return sanityFetch(INSTRUCTORS_QUERY, {}, {tags: ['instructor']})
 }
 
 export async function getInstructorBySlug(
   slug: string,
 ): Promise<InstructorWithCourses | null> {
-  return sanityFetch<InstructorWithCourses | null>(
-    INSTRUCTOR_BY_SLUG_QUERY,
-    {slug},
-    {tags: ['instructor', `instructor:${slug}`, 'course']},
-  )
+  return sanityFetch(INSTRUCTOR_BY_SLUG_QUERY, {slug}, {
+    tags: ['instructor', `instructor:${slug}`, 'course'],
+  })
 }
 
 export async function getCategories(): Promise<Category[]> {
-  return sanityFetch<Category[]>(CATEGORIES_QUERY, {}, {tags: ['category']})
+  return sanityFetch(CATEGORIES_QUERY, {}, {tags: ['category']})
 }
 
 export async function getCategoryBySlug(
   slug: string,
 ): Promise<CategoryWithCourses | null> {
-  return sanityFetch<CategoryWithCourses | null>(
-    CATEGORY_BY_SLUG_QUERY,
-    {slug},
-    {tags: ['category', `category:${slug}`, 'course']},
-  )
+  return sanityFetch(CATEGORY_BY_SLUG_QUERY, {slug}, {
+    tags: ['category', `category:${slug}`, 'course'],
+  })
 }
 
 export async function getCourseSlugs(): Promise<SlugRecord[]> {
-  return sanityFetch<SlugRecord[]>(COURSE_SLUGS_QUERY, {}, {tags: ['course']})
+  const records = await sanityFetch(COURSE_SLUGS_QUERY, {}, {tags: ['course']})
+  return records.flatMap(({slug}) => (slug ? [{slug}] : []))
 }
 
 export async function getLessonSlugs(): Promise<SlugRecord[]> {
-  return sanityFetch<SlugRecord[]>(LESSON_SLUGS_QUERY, {}, {tags: ['lesson']})
+  const records = await sanityFetch(LESSON_SLUGS_QUERY, {}, {tags: ['lesson']})
+  return records.flatMap(({slug}) => (slug ? [{slug}] : []))
 }

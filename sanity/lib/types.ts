@@ -1,85 +1,29 @@
-import type {PortableTextBlock} from '@portabletext/types'
+import type {
+  CATEGORIES_QUERY_RESULT,
+  CATEGORY_BY_SLUG_QUERY_RESULT,
+  COURSE_BY_SLUG_QUERY_RESULT,
+  COURSE_CONTEXTS_FOR_LESSON_QUERY_RESULT,
+  COURSES_QUERY_RESULT,
+  INSTRUCTOR_BY_SLUG_QUERY_RESULT,
+  INSTRUCTORS_QUERY_RESULT,
+  LESSON_BY_SLUG_QUERY_RESULT,
+} from '../../sanity.types'
 
 export type SanityReference = {
   _ref: string
   _type: 'reference'
 }
 
-export type SanityImage = {
-  _type: 'image'
-  _key?: string
-  asset?: SanityReference
-  alt?: string
-  crop?: {
-    bottom?: number
-    left?: number
-    right?: number
-    top?: number
-  }
-  hotspot?: {
-    height?: number
-    width?: number
-    x?: number
-    y?: number
-  }
-}
-
-export type InstructorSummary = {
-  _id: string
-  name: string
-  slug: string
-  photo?: SanityImage
-  expertise: string
-  bio: string
-}
-
-export type CategorySummary = {
-  _id: string
-  title: string
-  slug: string
-  description: string
-}
-
-export type LearningOutcome = {
-  _key: string
-  icon: string
-  title: string
-  description: string
-}
-
-export type LessonSummary = {
-  _id: string
-  title: string
-  slug: string
-  videoUrl: string
-  poster?: SanityImage
-  duration: number
-  isFreePreview: boolean
-  studentCount: number
-}
-
-export type CourseModule = {
-  _key: string
-  title: string
-  summary: string
-  lessons: LessonSummary[]
-}
-
-export type Course = {
-  _id: string
-  title: string
-  slug: string
-  summary: string
-  coverImage: SanityImage
-  level: 'beginner' | 'intermediate' | 'advanced'
-  price: number
-  isPopular: boolean
-  studentCount: number
-  learningOutcomes: LearningOutcome[]
-  instructor: InstructorSummary | null
-  category: CategorySummary | null
-  modules: CourseModule[]
-}
+export type Course = NonNullable<COURSE_BY_SLUG_QUERY_RESULT>
+export type CourseCatalog = COURSES_QUERY_RESULT[number]
+export type CourseModule = NonNullable<NonNullable<Course['modules']>[number]>
+export type LessonSummary = NonNullable<NonNullable<CourseModule['lessons']>[number]>
+export type SanityImage = NonNullable<Course['coverImage']>
+export type InstructorSummary = NonNullable<Course['instructor']>
+export type CategorySummary = NonNullable<Course['category']>
+export type LearningOutcome = NonNullable<
+  NonNullable<Course['learningOutcomes']>[number]
+>
 
 export type OrderedModule = Omit<CourseModule, 'lessons'> & {
   moduleNumber: number
@@ -90,25 +34,11 @@ export type OrderedCourse = Omit<Course, 'modules'> & {
   modules: OrderedModule[]
 }
 
-export type Lesson = LessonSummary & {
-  notes: PortableTextBlock[]
-  keyPoints: string[]
-  proTip?: string
-  resources: Array<{
-    _key: string
-    type: 'article' | 'video' | 'download' | 'link'
-    title: string
-    description: string
-    url: string
-  }>
-}
+export type Lesson = NonNullable<LESSON_BY_SLUG_QUERY_RESULT>
 
-export type CourseContext = Pick<
-  Course,
-  '_id' | 'title' | 'slug' | 'instructor' | 'category'
-> & {
-  modules: CourseModule[]
-}
+export type CourseContext = NonNullable<
+  COURSE_CONTEXTS_FOR_LESSON_QUERY_RESULT[number]
+>
 
 export type LessonWithContext = Lesson & {
   course: CourseContext | null
@@ -117,16 +47,8 @@ export type LessonWithContext = Lesson & {
   lessonNumber: string | null
 }
 
-export type Instructor = InstructorSummary
-
-export type InstructorWithCourses = Instructor & {
-  courses: Array<Pick<Course, '_id' | 'title' | 'slug' | 'summary' | 'coverImage' | 'level' | 'price' | 'isPopular' | 'studentCount' | 'category'>>
-}
-
-export type Category = CategorySummary
-
-export type CategoryWithCourses = Category & {
-  courses: Array<Pick<Course, '_id' | 'title' | 'slug' | 'summary' | 'coverImage' | 'level' | 'price' | 'isPopular' | 'studentCount' | 'instructor'>>
-}
-
+export type Instructor = INSTRUCTORS_QUERY_RESULT[number]
+export type InstructorWithCourses = NonNullable<INSTRUCTOR_BY_SLUG_QUERY_RESULT>
+export type Category = CATEGORIES_QUERY_RESULT[number]
+export type CategoryWithCourses = NonNullable<CATEGORY_BY_SLUG_QUERY_RESULT>
 export type SlugRecord = {slug: string}

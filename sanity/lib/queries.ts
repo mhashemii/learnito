@@ -25,21 +25,6 @@ export const COURSES_QUERY = defineQuery(`
       title,
       "slug": slug.current,
       description
-    },
-    modules[]{
-      _key,
-      title,
-      summary,
-      lessons[]->{
-        _id,
-        title,
-        "slug": slug.current,
-        videoUrl,
-        poster{..., alt},
-        duration,
-        "isFreePreview": coalesce(isFreePreview, false),
-        "studentCount": coalesce(studentCount, 0)
-      }
     }
   }
 `)
@@ -105,8 +90,8 @@ export const LESSON_BY_SLUG_QUERY = defineQuery(`
   }
 `)
 
-export const COURSE_CONTEXT_FOR_LESSON_QUERY = defineQuery(`
-  *[_type == "course" && references($lessonId)][0] {
+export const COURSE_CONTEXTS_FOR_LESSON_QUERY = defineQuery(`
+  *[_type == "course" && references($lessonId)] | order(title asc) {
     _id,
     title,
     "slug": slug.current,

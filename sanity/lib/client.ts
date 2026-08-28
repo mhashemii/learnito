@@ -4,7 +4,7 @@ import {createClient, type ClientReturn, type QueryParams} from 'next-sanity'
 
 import {apiVersion, dataset, projectId} from '../env'
 
-const readToken = process.env.SANITY_API_READ_TOKEN
+const readToken = process.env.SANITY_API_READ_TOKEN?.trim()
 
 if (!readToken) {
   throw new Error('Missing environment variable: SANITY_API_READ_TOKEN')

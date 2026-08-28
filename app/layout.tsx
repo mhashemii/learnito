@@ -3,8 +3,8 @@ import type { ReactNode } from "react";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Learnito Design System",
-  description: "The visual language for the Learnito learning platform.",
+  title: "Learnito | Learn in plain English",
+  description: "Find the exact lessons you need with Learnito.",
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {

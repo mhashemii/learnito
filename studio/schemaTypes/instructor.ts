@@ -18,6 +18,7 @@ export const instructor = defineType({
       options: {
         source: 'name',
         maxLength: 96,
+        isUnique: (slug, context) => context.defaultIsUnique(slug, context),
       },
       validation: (Rule) => Rule.required(),
     }),

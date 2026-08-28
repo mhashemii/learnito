@@ -18,6 +18,7 @@ export const category = defineType({
       options: {
         source: 'title',
         maxLength: 96,
+        isUnique: (slug, context) => context.defaultIsUnique(slug, context),
       },
       validation: (Rule) => Rule.required(),
     }),

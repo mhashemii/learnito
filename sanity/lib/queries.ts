@@ -30,7 +30,7 @@ export const COURSES_QUERY = defineQuery(`
 `)
 
 export const COURSE_BY_SLUG_QUERY = defineQuery(`
-  *[_type == "course" && slug.current == $slug][0] {
+  *[_type == "course" && slug.current == $slug] {
     _id,
     title,
     "slug": slug.current,
@@ -74,7 +74,7 @@ export const COURSE_BY_SLUG_QUERY = defineQuery(`
 `)
 
 export const LESSON_BY_SLUG_QUERY = defineQuery(`
-  *[_type == "lesson" && slug.current == $slug][0] {
+  *[_type == "lesson" && slug.current == $slug] {
     _id,
     title,
     "slug": slug.current,
@@ -139,7 +139,7 @@ export const INSTRUCTORS_QUERY = defineQuery(`
 `)
 
 export const INSTRUCTOR_BY_SLUG_QUERY = defineQuery(`
-  *[_type == "instructor" && slug.current == $slug][0] {
+  *[_type == "instructor" && slug.current == $slug] {
     _id,
     name,
     "slug": slug.current,
@@ -171,7 +171,7 @@ export const CATEGORIES_QUERY = defineQuery(`
 `)
 
 export const CATEGORY_BY_SLUG_QUERY = defineQuery(`
-  *[_type == "category" && slug.current == $slug][0] {
+  *[_type == "category" && slug.current == $slug] {
     _id,
     title,
     "slug": slug.current,

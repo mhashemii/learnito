@@ -14,7 +14,7 @@ export type SanityReference = {
   _type: 'reference'
 }
 
-export type Course = NonNullable<COURSE_BY_SLUG_QUERY_RESULT>
+export type Course = NonNullable<COURSE_BY_SLUG_QUERY_RESULT[number]>
 export type CourseCatalog = COURSES_QUERY_RESULT[number]
 export type CourseModule = NonNullable<NonNullable<Course['modules']>[number]>
 export type LessonSummary = NonNullable<NonNullable<CourseModule['lessons']>[number]>
@@ -34,7 +34,7 @@ export type OrderedCourse = Omit<Course, 'modules'> & {
   modules: OrderedModule[]
 }
 
-export type Lesson = NonNullable<LESSON_BY_SLUG_QUERY_RESULT>
+export type Lesson = NonNullable<LESSON_BY_SLUG_QUERY_RESULT[number]>
 
 export type CourseContext = NonNullable<
   COURSE_CONTEXTS_FOR_LESSON_QUERY_RESULT[number]
@@ -48,7 +48,9 @@ export type LessonWithContext = Lesson & {
 }
 
 export type Instructor = INSTRUCTORS_QUERY_RESULT[number]
-export type InstructorWithCourses = NonNullable<INSTRUCTOR_BY_SLUG_QUERY_RESULT>
+export type InstructorWithCourses = NonNullable<
+  INSTRUCTOR_BY_SLUG_QUERY_RESULT[number]
+>
 export type Category = CATEGORIES_QUERY_RESULT[number]
-export type CategoryWithCourses = NonNullable<CATEGORY_BY_SLUG_QUERY_RESULT>
+export type CategoryWithCourses = NonNullable<CATEGORY_BY_SLUG_QUERY_RESULT[number]>
 export type SlugRecord = {slug: string}

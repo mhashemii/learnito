@@ -372,8 +372,8 @@ export type COURSES_QUERY_RESULT = Array<{
 
 // Source: ../sanity/lib/queries.ts
 // Variable: COURSE_BY_SLUG_QUERY
-// Query: *[_type == "course" && slug.current == $slug][0] {    _id,    title,    "slug": slug.current,    summary,    coverImage{..., alt},    level,    price,    "isPopular": coalesce(isPopular, false),    "studentCount": coalesce(studentCount, 0),    learningOutcomes[]{_key, icon, title, description},    instructor->{      _id,      name,      "slug": slug.current,      photo{..., alt},      expertise,      bio    },    category->{      _id,      title,      "slug": slug.current,      description    },    modules[]{      _key,      title,      summary,      lessons[]->{        _id,        title,        "slug": slug.current,        videoUrl,        poster{..., alt},        duration,        "isFreePreview": coalesce(isFreePreview, false),        "studentCount": coalesce(studentCount, 0)      }    }  }
-export type COURSE_BY_SLUG_QUERY_RESULT = {
+// Query: *[_type == "course" && slug.current == $slug] {    _id,    title,    "slug": slug.current,    summary,    coverImage{..., alt},    level,    price,    "isPopular": coalesce(isPopular, false),    "studentCount": coalesce(studentCount, 0),    learningOutcomes[]{_key, icon, title, description},    instructor->{      _id,      name,      "slug": slug.current,      photo{..., alt},      expertise,      bio    },    category->{      _id,      title,      "slug": slug.current,      description    },    modules[]{      _key,      title,      summary,      lessons[]->{        _id,        title,        "slug": slug.current,        videoUrl,        poster{..., alt},        duration,        "isFreePreview": coalesce(isFreePreview, false),        "studentCount": coalesce(studentCount, 0)      }    }  }
+export type COURSE_BY_SLUG_QUERY_RESULT = Array<{
   _id: string;
   title: string | null;
   slug: string | null;
@@ -439,12 +439,12 @@ export type COURSE_BY_SLUG_QUERY_RESULT = {
       studentCount: number | 0;
     }> | null;
   }> | null;
-} | null;
+}>;
 
 // Source: ../sanity/lib/queries.ts
 // Variable: LESSON_BY_SLUG_QUERY
-// Query: *[_type == "lesson" && slug.current == $slug][0] {    _id,    title,    "slug": slug.current,    videoUrl,    poster{..., alt},    duration,    "isFreePreview": coalesce(isFreePreview, false),    "studentCount": coalesce(studentCount, 0),    notes,    keyPoints,    proTip,    resources[]{_key, type, title, description, url}  }
-export type LESSON_BY_SLUG_QUERY_RESULT = {
+// Query: *[_type == "lesson" && slug.current == $slug] {    _id,    title,    "slug": slug.current,    videoUrl,    poster{..., alt},    duration,    "isFreePreview": coalesce(isFreePreview, false),    "studentCount": coalesce(studentCount, 0),    notes,    keyPoints,    proTip,    resources[]{_key, type, title, description, url}  }
+export type LESSON_BY_SLUG_QUERY_RESULT = Array<{
   _id: string;
   title: string | null;
   slug: string | null;
@@ -483,7 +483,7 @@ export type LESSON_BY_SLUG_QUERY_RESULT = {
     description: string | null;
     url: string | null;
   }> | null;
-} | null;
+}>;
 
 // Source: ../sanity/lib/queries.ts
 // Variable: COURSE_CONTEXTS_FOR_LESSON_QUERY
@@ -558,8 +558,8 @@ export type INSTRUCTORS_QUERY_RESULT = Array<{
 
 // Source: ../sanity/lib/queries.ts
 // Variable: INSTRUCTOR_BY_SLUG_QUERY
-// Query: *[_type == "instructor" && slug.current == $slug][0] {    _id,    name,    "slug": slug.current,    photo{..., alt},    expertise,    bio,    "courses": *[_type == "course" && instructor._ref == ^._id] | order(title asc) {      _id,      title,      "slug": slug.current,      summary,      coverImage{..., alt},      level,      price,      "isPopular": coalesce(isPopular, false),      "studentCount": coalesce(studentCount, 0),      category->{_id, title, "slug": slug.current, description}    }  }
-export type INSTRUCTOR_BY_SLUG_QUERY_RESULT = {
+// Query: *[_type == "instructor" && slug.current == $slug] {    _id,    name,    "slug": slug.current,    photo{..., alt},    expertise,    bio,    "courses": *[_type == "course" && instructor._ref == ^._id] | order(title asc) {      _id,      title,      "slug": slug.current,      summary,      coverImage{..., alt},      level,      price,      "isPopular": coalesce(isPopular, false),      "studentCount": coalesce(studentCount, 0),      category->{_id, title, "slug": slug.current, description}    }  }
+export type INSTRUCTOR_BY_SLUG_QUERY_RESULT = Array<{
   _id: string;
   name: string | null;
   slug: string | null;
@@ -597,7 +597,7 @@ export type INSTRUCTOR_BY_SLUG_QUERY_RESULT = {
       description: string | null;
     } | null;
   }>;
-} | null;
+}>;
 
 // Source: ../sanity/lib/queries.ts
 // Variable: CATEGORIES_QUERY
@@ -611,8 +611,8 @@ export type CATEGORIES_QUERY_RESULT = Array<{
 
 // Source: ../sanity/lib/queries.ts
 // Variable: CATEGORY_BY_SLUG_QUERY
-// Query: *[_type == "category" && slug.current == $slug][0] {    _id,    title,    "slug": slug.current,    description,    "courses": *[_type == "course" && category._ref == ^._id] | order(title asc) {      _id,      title,      "slug": slug.current,      summary,      coverImage{..., alt},      level,      price,      "isPopular": coalesce(isPopular, false),      "studentCount": coalesce(studentCount, 0),      instructor->{_id, name, "slug": slug.current, photo{..., alt}, expertise, bio}    }  }
-export type CATEGORY_BY_SLUG_QUERY_RESULT = {
+// Query: *[_type == "category" && slug.current == $slug] {    _id,    title,    "slug": slug.current,    description,    "courses": *[_type == "course" && category._ref == ^._id] | order(title asc) {      _id,      title,      "slug": slug.current,      summary,      coverImage{..., alt},      level,      price,      "isPopular": coalesce(isPopular, false),      "studentCount": coalesce(studentCount, 0),      instructor->{_id, name, "slug": slug.current, photo{..., alt}, expertise, bio}    }  }
+export type CATEGORY_BY_SLUG_QUERY_RESULT = Array<{
   _id: string;
   title: string | null;
   slug: string | null;
@@ -650,7 +650,7 @@ export type CATEGORY_BY_SLUG_QUERY_RESULT = {
       bio: string | null;
     } | null;
   }>;
-} | null;
+}>;
 
 // Source: ../sanity/lib/queries.ts
 // Variable: COURSE_SLUGS_QUERY
@@ -671,13 +671,13 @@ import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
     '\n  *[_type == "course" && defined(slug.current)] | order(title asc) {\n    _id,\n    title,\n    "slug": slug.current,\n    summary,\n    coverImage{..., alt},\n    level,\n    price,\n    "isPopular": coalesce(isPopular, false),\n    "studentCount": coalesce(studentCount, 0),\n    learningOutcomes[]{_key, icon, title, description},\n    instructor->{\n      _id,\n      name,\n      "slug": slug.current,\n      photo{..., alt},\n      expertise,\n      bio\n    },\n    category->{\n      _id,\n      title,\n      "slug": slug.current,\n      description\n    }\n  }\n': COURSES_QUERY_RESULT;
-    '\n  *[_type == "course" && slug.current == $slug][0] {\n    _id,\n    title,\n    "slug": slug.current,\n    summary,\n    coverImage{..., alt},\n    level,\n    price,\n    "isPopular": coalesce(isPopular, false),\n    "studentCount": coalesce(studentCount, 0),\n    learningOutcomes[]{_key, icon, title, description},\n    instructor->{\n      _id,\n      name,\n      "slug": slug.current,\n      photo{..., alt},\n      expertise,\n      bio\n    },\n    category->{\n      _id,\n      title,\n      "slug": slug.current,\n      description\n    },\n    modules[]{\n      _key,\n      title,\n      summary,\n      lessons[]->{\n        _id,\n        title,\n        "slug": slug.current,\n        videoUrl,\n        poster{..., alt},\n        duration,\n        "isFreePreview": coalesce(isFreePreview, false),\n        "studentCount": coalesce(studentCount, 0)\n      }\n    }\n  }\n': COURSE_BY_SLUG_QUERY_RESULT;
-    '\n  *[_type == "lesson" && slug.current == $slug][0] {\n    _id,\n    title,\n    "slug": slug.current,\n    videoUrl,\n    poster{..., alt},\n    duration,\n    "isFreePreview": coalesce(isFreePreview, false),\n    "studentCount": coalesce(studentCount, 0),\n    notes,\n    keyPoints,\n    proTip,\n    resources[]{_key, type, title, description, url}\n  }\n': LESSON_BY_SLUG_QUERY_RESULT;
+    '\n  *[_type == "course" && slug.current == $slug] {\n    _id,\n    title,\n    "slug": slug.current,\n    summary,\n    coverImage{..., alt},\n    level,\n    price,\n    "isPopular": coalesce(isPopular, false),\n    "studentCount": coalesce(studentCount, 0),\n    learningOutcomes[]{_key, icon, title, description},\n    instructor->{\n      _id,\n      name,\n      "slug": slug.current,\n      photo{..., alt},\n      expertise,\n      bio\n    },\n    category->{\n      _id,\n      title,\n      "slug": slug.current,\n      description\n    },\n    modules[]{\n      _key,\n      title,\n      summary,\n      lessons[]->{\n        _id,\n        title,\n        "slug": slug.current,\n        videoUrl,\n        poster{..., alt},\n        duration,\n        "isFreePreview": coalesce(isFreePreview, false),\n        "studentCount": coalesce(studentCount, 0)\n      }\n    }\n  }\n': COURSE_BY_SLUG_QUERY_RESULT;
+    '\n  *[_type == "lesson" && slug.current == $slug] {\n    _id,\n    title,\n    "slug": slug.current,\n    videoUrl,\n    poster{..., alt},\n    duration,\n    "isFreePreview": coalesce(isFreePreview, false),\n    "studentCount": coalesce(studentCount, 0),\n    notes,\n    keyPoints,\n    proTip,\n    resources[]{_key, type, title, description, url}\n  }\n': LESSON_BY_SLUG_QUERY_RESULT;
     '\n  *[_type == "course" && references($lessonId)] | order(title asc) {\n    _id,\n    title,\n    "slug": slug.current,\n    instructor->{\n      _id,\n      name,\n      "slug": slug.current,\n      photo{..., alt},\n      expertise,\n      bio\n    },\n    category->{\n      _id,\n      title,\n      "slug": slug.current,\n      description\n    },\n    modules[]{\n      _key,\n      title,\n      summary,\n      lessons[]->{\n        _id,\n        title,\n        "slug": slug.current,\n        videoUrl,\n        poster{..., alt},\n        duration,\n        "isFreePreview": coalesce(isFreePreview, false),\n        "studentCount": coalesce(studentCount, 0)\n      }\n    }\n  }\n': COURSE_CONTEXTS_FOR_LESSON_QUERY_RESULT;
     '\n  *[_type == "instructor" && defined(slug.current)] | order(name asc) {\n    _id,\n    name,\n    "slug": slug.current,\n    photo{..., alt},\n    expertise,\n    bio\n  }\n': INSTRUCTORS_QUERY_RESULT;
-    '\n  *[_type == "instructor" && slug.current == $slug][0] {\n    _id,\n    name,\n    "slug": slug.current,\n    photo{..., alt},\n    expertise,\n    bio,\n    "courses": *[_type == "course" && instructor._ref == ^._id] | order(title asc) {\n      _id,\n      title,\n      "slug": slug.current,\n      summary,\n      coverImage{..., alt},\n      level,\n      price,\n      "isPopular": coalesce(isPopular, false),\n      "studentCount": coalesce(studentCount, 0),\n      category->{_id, title, "slug": slug.current, description}\n    }\n  }\n': INSTRUCTOR_BY_SLUG_QUERY_RESULT;
+    '\n  *[_type == "instructor" && slug.current == $slug] {\n    _id,\n    name,\n    "slug": slug.current,\n    photo{..., alt},\n    expertise,\n    bio,\n    "courses": *[_type == "course" && instructor._ref == ^._id] | order(title asc) {\n      _id,\n      title,\n      "slug": slug.current,\n      summary,\n      coverImage{..., alt},\n      level,\n      price,\n      "isPopular": coalesce(isPopular, false),\n      "studentCount": coalesce(studentCount, 0),\n      category->{_id, title, "slug": slug.current, description}\n    }\n  }\n': INSTRUCTOR_BY_SLUG_QUERY_RESULT;
     '\n  *[_type == "category" && defined(slug.current)] | order(title asc) {\n    _id,\n    title,\n    "slug": slug.current,\n    description\n  }\n': CATEGORIES_QUERY_RESULT;
-    '\n  *[_type == "category" && slug.current == $slug][0] {\n    _id,\n    title,\n    "slug": slug.current,\n    description,\n    "courses": *[_type == "course" && category._ref == ^._id] | order(title asc) {\n      _id,\n      title,\n      "slug": slug.current,\n      summary,\n      coverImage{..., alt},\n      level,\n      price,\n      "isPopular": coalesce(isPopular, false),\n      "studentCount": coalesce(studentCount, 0),\n      instructor->{_id, name, "slug": slug.current, photo{..., alt}, expertise, bio}\n    }\n  }\n': CATEGORY_BY_SLUG_QUERY_RESULT;
+    '\n  *[_type == "category" && slug.current == $slug] {\n    _id,\n    title,\n    "slug": slug.current,\n    description,\n    "courses": *[_type == "course" && category._ref == ^._id] | order(title asc) {\n      _id,\n      title,\n      "slug": slug.current,\n      summary,\n      coverImage{..., alt},\n      level,\n      price,\n      "isPopular": coalesce(isPopular, false),\n      "studentCount": coalesce(studentCount, 0),\n      instructor->{_id, name, "slug": slug.current, photo{..., alt}, expertise, bio}\n    }\n  }\n': CATEGORY_BY_SLUG_QUERY_RESULT;
     '\n  *[_type == "course" && defined(slug.current)] | order(slug.current asc) {\n    "slug": slug.current\n  }\n': COURSE_SLUGS_QUERY_RESULT;
     '\n  *[_type == "lesson" && defined(slug.current)] | order(slug.current asc) {\n    "slug": slug.current\n  }\n': LESSON_SLUGS_QUERY_RESULT;
   }

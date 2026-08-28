@@ -51,6 +51,10 @@ function withDerivedOrder<T extends {modules: CourseModule[] | null}>(
   } as WithDerivedModules<T>
 }
 
+function uniqueMatch<T>(matches: T[]): T | null {
+  return matches.length === 1 ? matches[0] : null
+}
+
 export async function getCourses(): Promise<CourseCatalog[]> {
   return sanityFetch(COURSES_QUERY, {}, {tags: ['course']})
 }
@@ -58,9 +62,10 @@ export async function getCourses(): Promise<CourseCatalog[]> {
 export async function getCourseBySlug(
   slug: string,
 ): Promise<OrderedCourse | null> {
-  const course = await sanityFetch(COURSE_BY_SLUG_QUERY, {slug}, {
+  const courses = await sanityFetch(COURSE_BY_SLUG_QUERY, {slug}, {
     tags: ['course', `course:${slug}`],
   })
+  const course = uniqueMatch(courses)
 
   return course ? withDerivedOrder(course) : null
 }
@@ -69,9 +74,10 @@ export async function getLessonBySlug(
   slug: string,
   courseSlug?: string,
 ): Promise<LessonWithContext | null> {
-  const lesson = await sanityFetch(LESSON_BY_SLUG_QUERY, {slug}, {
+  const lessons = await sanityFetch(LESSON_BY_SLUG_QUERY, {slug}, {
     tags: ['lesson', `lesson:${slug}`],
   })
+  const lesson = uniqueMatch(lessons)
 
   if (!lesson) {
     return null
@@ -122,9 +128,10 @@ export async function getInstructors(): Promise<Instructor[]> {
 export async function getInstructorBySlug(
   slug: string,
 ): Promise<InstructorWithCourses | null> {
-  return sanityFetch(INSTRUCTOR_BY_SLUG_QUERY, {slug}, {
+  const instructors = await sanityFetch(INSTRUCTOR_BY_SLUG_QUERY, {slug}, {
     tags: ['instructor', `instructor:${slug}`, 'course'],
   })
+  return uniqueMatch(instructors)
 }
 
 export async function getCategories(): Promise<Category[]> {
@@ -134,9 +141,10 @@ export async function getCategories(): Promise<Category[]> {
 export async function getCategoryBySlug(
   slug: string,
 ): Promise<CategoryWithCourses | null> {
-  return sanityFetch(CATEGORY_BY_SLUG_QUERY, {slug}, {
+  const categories = await sanityFetch(CATEGORY_BY_SLUG_QUERY, {slug}, {
     tags: ['category', `category:${slug}`, 'course'],
   })
+  return uniqueMatch(categories)
 }
 
 export async function getCourseSlugs(): Promise<SlugRecord[]> {

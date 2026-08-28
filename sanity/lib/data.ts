@@ -93,7 +93,7 @@ export async function getLessonBySlug(
   )
 
   const course = courseSlug
-    ? courses.find((candidate) => candidate.slug === courseSlug) ?? null
+    ? uniqueMatch(courses.filter((candidate) => candidate.slug === courseSlug))
     : courses.length === 1
       ? courses[0]
       : null

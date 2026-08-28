@@ -52,7 +52,7 @@ export const lesson = defineType({
       name: 'duration',
       title: 'Duration in seconds',
       type: 'number',
-      validation: (Rule) => Rule.required().integer().min(1),
+      validation: (Rule) => Rule.required().integer().min(0),
     }),
     defineField({
       name: 'isFreePreview',

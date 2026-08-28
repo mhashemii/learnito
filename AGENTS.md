@@ -192,3 +192,7 @@ After you implement, run the type check and lint at minimum, add a build when ro
 # 14. When in doubt
 
 Keep it small. Use the relevant skill. Preserve the server and client boundaries and the private token rule. Match the provided UI exactly. Get specifics from setup and config instead of hardcoding them. Save a prompt and get approval before coding. Run the checks. Share exact test steps.
+
+## Context files
+
+- [studio/AGENTS.md](studio/AGENTS.md): standalone Sanity Studio conventions, commands, and schema boundaries.

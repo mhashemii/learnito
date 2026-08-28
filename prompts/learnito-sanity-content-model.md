@@ -109,6 +109,7 @@ Likely files to add or update:
 - `studio/tsconfig.json`, `studio/sanity.cli.ts`, `studio/sanity.config.ts`, and `studio/structure.ts`;
 - `studio/schemaTypes/index.ts`;
 - `studio/schemaTypes/course.ts`, `lesson.ts`, `instructor.ts`, `category.ts`;
+- `studio/schemaTypes/uniqueSlug.ts`;
 - `studio/schemaTypes/objects/module.ts`, `learningOutcome.ts`, and `resource.ts`;
 - root `package.json`, `package-lock.json`, `tsconfig.json`, `.gitignore`, and `.env.example`;
 - root `sanity/env.ts`, `sanity/lib/client.ts`, `sanity/lib/queries.ts`, `sanity/lib/data.ts`, and any small shared type helper required by the data layer;

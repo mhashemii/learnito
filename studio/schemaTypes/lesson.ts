@@ -1,5 +1,7 @@
 import {defineArrayMember, defineField, defineType} from 'sanity'
 
+import {isUniqueSlug} from './uniqueSlug'
+
 export const lesson = defineType({
   name: 'lesson',
   title: 'Lesson',
@@ -19,7 +21,7 @@ export const lesson = defineType({
       options: {
         source: 'title',
         maxLength: 96,
-        isUnique: (slug, context) => context.defaultIsUnique(slug, context),
+        isUnique: isUniqueSlug('lesson'),
       },
       validation: (Rule) => Rule.required(),
     }),

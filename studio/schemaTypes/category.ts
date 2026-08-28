@@ -1,5 +1,7 @@
 import {defineField, defineType} from 'sanity'
 
+import {isUniqueSlug} from './uniqueSlug'
+
 export const category = defineType({
   name: 'category',
   title: 'Category',
@@ -18,7 +20,7 @@ export const category = defineType({
       options: {
         source: 'title',
         maxLength: 96,
-        isUnique: (slug, context) => context.defaultIsUnique(slug, context),
+        isUnique: isUniqueSlug('category'),
       },
       validation: (Rule) => Rule.required(),
     }),

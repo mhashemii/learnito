@@ -6,6 +6,7 @@
     "dev": "sanity dev",
     "build": "sanity build",
     "deploy": "sanity deploy",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
     "schema:extract": "sanity schemas extract --path schema.json",
     "schema:deploy": "sanity schemas deploy",
     "typegen": "npm run schema:extract && sanity typegen generate"

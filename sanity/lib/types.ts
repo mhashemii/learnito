@@ -40,6 +40,10 @@ export type CourseContext = NonNullable<
   COURSE_CONTEXTS_FOR_LESSON_QUERY_RESULT[number]
 >
 
+export type OrderedCourseContext = Omit<CourseContext, 'modules'> & {
+  modules: OrderedModule[]
+}
+
 export type LessonWithContext = Lesson & {
   course: CourseContext | null
   module: OrderedModule | null

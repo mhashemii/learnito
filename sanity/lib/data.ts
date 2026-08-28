@@ -16,39 +16,42 @@ import {
 import type {
   Category,
   CategoryWithCourses,
+  Course,
   CourseCatalog,
   CourseModule,
+  CourseContext,
   Instructor,
   InstructorWithCourses,
   LessonWithContext,
   OrderedCourse,
+  OrderedCourseContext,
   OrderedModule,
   SlugRecord,
 } from './types'
 
-type WithDerivedModules<T extends {modules: CourseModule[] | null}> = Omit<
-  T,
-  'modules'
-> & {
-  modules: OrderedModule[]
+function isPresent<T>(value: T | null | undefined): value is T {
+  return value != null
 }
 
-function withDerivedOrder<T extends {modules: CourseModule[] | null}>(
-  value: T,
-): WithDerivedModules<T> {
-  return {
-    ...value,
-    modules: (value.modules ?? []).filter(Boolean).map((module, moduleIndex) => ({
-      ...module,
-      moduleNumber: moduleIndex + 1,
-      lessons: (module.lessons ?? [])
-        .filter(Boolean)
-        .map((lesson, lessonIndex) => ({
-          ...lesson,
-          lessonNumber: `${moduleIndex + 1}.${lessonIndex + 1}`,
-        })),
-    })),
-  } as WithDerivedModules<T>
+function withDerivedModules(modules: CourseModule[] | null): OrderedModule[] {
+  return (modules ?? []).filter(isPresent).map((module, moduleIndex) => ({
+    ...module,
+    moduleNumber: moduleIndex + 1,
+    lessons: (module.lessons ?? [])
+      .filter(isPresent)
+      .map((lesson, lessonIndex) => ({
+        ...lesson,
+        lessonNumber: `${moduleIndex + 1}.${lessonIndex + 1}`,
+      })),
+  }))
+}
+
+function withDerivedOrder(value: Course): OrderedCourse {
+  return {...value, modules: withDerivedModules(value.modules)}
+}
+
+function withDerivedContextOrder(value: CourseContext): OrderedCourseContext {
+  return {...value, modules: withDerivedModules(value.modules)}
 }
 
 function uniqueMatch<T>(matches: T[]): T | null {
@@ -83,7 +86,8 @@ export async function getLessonBySlug(
     return null
   }
 
-  const courses = await sanityFetch(COURSE_CONTEXTS_FOR_LESSON_QUERY,
+  const courses = await sanityFetch(
+    COURSE_CONTEXTS_FOR_LESSON_QUERY,
     {lessonId: lesson._id},
     {tags: ['course', `lesson:${lesson._id}`]},
   )
@@ -104,7 +108,7 @@ export async function getLessonBySlug(
     }
   }
 
-  const orderedCourse = withDerivedOrder(course)
+  const orderedCourse = withDerivedContextOrder(course)
   const matchingModule = orderedCourse.modules.find((candidate) =>
     candidate.lessons.some((candidateLesson) => candidateLesson._id === lesson._id),
   )

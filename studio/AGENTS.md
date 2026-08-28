@@ -9,6 +9,7 @@ Run commands from this directory:
 - `npm run dev` starts the local Studio.
 - `npm run build` builds the Studio for deployment.
 - `npm run deploy` deploys the Studio application.
+- `npm run typecheck` checks the Studio TypeScript project.
 - `npm run schema:deploy` deploys the extracted schema.
 - `npm run typegen` extracts the schema and regenerates the root `sanity.types.ts` file.
 

@@ -1,4 +1,5 @@
 import { homeCourses, type HomeCourse } from "@/lib/home-placeholder";
+import { AuthControls } from "@/components/auth-controls";
 import { Icon, LearnitoMark } from "@/components/icons";
 
 function CourseLogo({ kind }: { kind: HomeCourse["logo"] }) {
@@ -82,13 +83,7 @@ export function HomePage() {
             <button className="home-icon-button" type="button" aria-label="Open notifications">
               <Icon name="bell" />
             </button>
-            <a className="home-avatar-link" href="/profile" aria-label="Open profile">
-              <span className="home-avatar" aria-hidden="true">
-                <span className="home-avatar__hair" />
-                <span className="home-avatar__face" />
-                <span className="home-avatar__shirt" />
-              </span>
-            </a>
+            <AuthControls />
           </div>
         </header>
 

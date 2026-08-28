@@ -1686,6 +1686,67 @@ p {
   gap: var(--space-sm);
 }
 
+.home-auth-controls {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+.home-auth-button {
+  display: inline-flex;
+  min-height: var(--control-height);
+  align-items: center;
+  justify-content: center;
+  padding-inline: var(--space-md);
+  border: var(--border-thin) solid transparent;
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-body);
+  font-weight: var(--weight-semi);
+  line-height: 1;
+  cursor: pointer;
+  transition: background-color var(--motion-fast) var(--ease-standard), border-color var(--motion-fast) var(--ease-standard), color var(--motion-fast) var(--ease-standard), transform var(--motion-fast) var(--ease-standard);
+}
+
+.home-auth-button--sign-in {
+  border-color: var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-ink);
+}
+
+.home-auth-button--sign-in:hover {
+  border-color: var(--color-primary-300);
+  color: var(--color-primary-700);
+}
+
+.home-auth-button--sign-up {
+  background: var(--color-primary-600);
+  color: var(--color-white);
+}
+
+.home-auth-button--sign-up:hover {
+  background: var(--color-primary-700);
+  transform: translateY(calc(var(--home-card-hover-lift) * -0.25));
+}
+
+.home-user-button {
+  display: grid;
+  width: var(--home-avatar-size);
+  height: var(--home-avatar-size);
+  place-items: center;
+  border-radius: var(--radius-full);
+  transition: box-shadow var(--motion-fast) var(--ease-standard), transform var(--motion-fast) var(--ease-standard);
+}
+
+.home-user-button:hover {
+  box-shadow: 0 0 0 var(--space-xs) var(--color-primary-100);
+  transform: translateY(calc(var(--home-card-hover-lift) * -0.25));
+}
+
+.home-clerk-avatar {
+  width: var(--home-avatar-size);
+  height: var(--home-avatar-size);
+}
+
 .home-icon-button {
   display: grid;
   width: var(--control-height);
@@ -1706,66 +1767,6 @@ p {
 .home-icon-button .icon {
   width: var(--icon-size);
   height: var(--icon-size);
-}
-
-.home-avatar-link {
-  display: grid;
-  width: var(--home-avatar-size);
-  height: var(--home-avatar-size);
-  place-items: center;
-  overflow: hidden;
-  border-radius: var(--radius-full);
-  background: var(--color-neutral-200);
-  transition: box-shadow var(--motion-fast) var(--ease-standard), transform var(--motion-fast) var(--ease-standard);
-}
-
-.home-avatar-link:hover {
-  box-shadow: 0 0 0 var(--space-xs) var(--color-primary-100);
-  transform: translateY(calc(var(--home-card-hover-lift) * -0.25));
-}
-
-.home-avatar {
-  position: relative;
-  display: block;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  background: var(--color-neutral-100);
-}
-
-.home-avatar__hair,
-.home-avatar__face,
-.home-avatar__shirt {
-  position: absolute;
-  display: block;
-}
-
-.home-avatar__hair {
-  top: 14%;
-  left: 19%;
-  width: 62%;
-  height: 68%;
-  border-radius: var(--radius-full);
-  background: var(--color-neutral-900);
-}
-
-.home-avatar__face {
-  z-index: 1;
-  top: 28%;
-  left: 25%;
-  width: 50%;
-  height: 53%;
-  border-radius: 45% 45% 48% 48%;
-  background: var(--color-primary-200);
-}
-
-.home-avatar__shirt {
-  right: -8%;
-  bottom: -14%;
-  left: -8%;
-  height: 47%;
-  border-radius: var(--radius-full) var(--radius-full) 0 0;
-  background: var(--color-primary-700);
 }
 
 .home-hero {
@@ -2146,7 +2147,8 @@ p {
 .home-brand:focus-visible,
 .home-nav a:focus-visible,
 .home-icon-button:focus-visible,
-.home-avatar-link:focus-visible,
+.home-auth-button:focus-visible,
+.home-user-button:focus-within,
 .home-hero__cta:focus-visible,
 .home-section-link:focus-visible,
 .home-course-card__link:focus-visible {
@@ -2228,7 +2230,18 @@ p {
     gap: var(--space-sm);
   }
 
-  .home-avatar-link {
+  .home-auth-controls {
+    gap: var(--space-xs);
+  }
+
+  .home-auth-button {
+    min-height: var(--space-2xl);
+    padding-inline: var(--space-sm);
+    font-size: var(--font-size-small);
+  }
+
+  .home-user-button,
+  .home-clerk-avatar {
     width: var(--space-2xl);
     height: var(--space-2xl);
   }
@@ -2322,7 +2335,7 @@ p {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .home-avatar-link:hover,
+  .home-user-button:hover,
   .home-hero__cta:hover,
   .home-course-card__link:hover {
     transform: none;

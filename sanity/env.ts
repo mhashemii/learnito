@@ -12,9 +12,11 @@ export const projectId = assertValue(
 )
 
 function assertValue(v: string | undefined, errorMessage: string): string {
-  if (!v?.trim()) {
+  const value = v?.trim()
+
+  if (!value) {
     throw new Error(errorMessage)
   }
 
-  return v
+  return value
 }

@@ -22,6 +22,7 @@ import type {
   CourseContext,
   Instructor,
   InstructorWithCourses,
+  Lesson,
   LessonWithContext,
   OrderedCourse,
   OrderedCourseContext,
@@ -92,29 +93,55 @@ export async function getLessonBySlug(
     {tags: ['course', `lesson:${lesson._id}`]},
   )
 
-  const course = courseSlug
-    ? uniqueMatch(courses.filter((candidate) => candidate.slug === courseSlug))
-    : courses.length === 1
-      ? courses[0]
-      : null
+  if (courseSlug) {
+    const course = uniqueMatch(
+      courses.filter((candidate) => candidate.slug === courseSlug),
+    )
 
-  if (!course) {
-    return {
-      ...lesson,
-      course: null,
-      module: null,
-      moduleNumber: null,
-      lessonNumber: null,
+    if (!course) {
+      return null
     }
+
+    return buildLessonWithContext(lesson, course)
   }
 
+  const course = courses.length === 1 ? courses[0] : null
+
+  if (!course) {
+    return buildLessonWithoutContext(lesson)
+  }
+
+  return buildLessonWithContext(lesson, course)
+}
+
+function buildLessonWithoutContext(
+  lesson: Lesson,
+): LessonWithContext {
+  return {
+    ...lesson,
+    course: null,
+    module: null,
+    moduleNumber: null,
+    lessonNumber: null,
+  }
+}
+
+function buildLessonWithContext(
+  lesson: Lesson,
+  course: CourseContext,
+): LessonWithContext {
   const orderedCourse = withDerivedContextOrder(course)
-  const matchingModule = orderedCourse.modules.find((candidate) =>
+  const matchingModules = orderedCourse.modules.filter((candidate) =>
     candidate.lessons.some((candidateLesson) => candidateLesson._id === lesson._id),
   )
-  const orderedLesson = matchingModule?.lessons.find(
-    (candidateLesson) => candidateLesson._id === lesson._id,
+  const matchingLessons = matchingModules.flatMap((candidate) =>
+    candidate.lessons.filter((candidateLesson) => candidateLesson._id === lesson._id),
   )
+  const matchingModule =
+    matchingModules.length === 1 && matchingLessons.length === 1
+      ? matchingModules[0]
+      : null
+  const orderedLesson = matchingModule ? matchingLessons[0] : null
 
   return {
     ...lesson,
@@ -153,10 +180,18 @@ export async function getCategoryBySlug(
 
 export async function getCourseSlugs(): Promise<SlugRecord[]> {
   const records = await sanityFetch(COURSE_SLUGS_QUERY, {}, {tags: ['course']})
-  return records.flatMap(({slug}) => (slug ? [{slug}] : []))
+  return uniqueSlugRecords(records)
 }
 
 export async function getLessonSlugs(): Promise<SlugRecord[]> {
   const records = await sanityFetch(LESSON_SLUGS_QUERY, {}, {tags: ['lesson']})
-  return records.flatMap(({slug}) => (slug ? [{slug}] : []))
+  return uniqueSlugRecords(records)
+}
+
+function uniqueSlugRecords(
+  records: Array<{slug: string | null}>,
+): SlugRecord[] {
+  return [...new Set(records.flatMap(({slug}) => (slug ? [slug] : [])))].map(
+    (slug) => ({slug}),
+  )
 }

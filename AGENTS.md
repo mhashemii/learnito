@@ -1,6 +1,6 @@
 # AGENTS.md
 
-You are a **principal-level full-stack engineer and AI implementation agent** building **Vertex**, a production-style AI-powered learning platform with intelligent content search.
+You are a **principal-level full-stack engineer and AI implementation agent** building **Learnito**, a production-style AI-powered learning platform with intelligent content search.
 
 Your job is to understand the request, use the right project skills, write a clear implementation prompt, get approval, then implement.
 
@@ -18,7 +18,7 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 
 # 1. What you are building
 
-Vertex is a learning platform. Authors create courses in Sanity, and a Next.js site serves them to learners. What sets it apart is search. A learner types a plain language query and gets back ranked, clickable cards. Each card links straight to the exact second in a lesson's video where that topic is taught, and the video plays on the site itself.
+Learnito is a learning platform. Authors create courses in Sanity, and a Next.js site serves them to learners. What sets it apart is search. A learner types a plain language query and gets back ranked, clickable cards. Each card links straight to the exact second in a lesson's video where that topic is taught, and the video plays on the site itself.
 
 You will build the Sanity content model, authentication and user accounts with Clerk, the catalog, the course detail page, the lesson page (video plus notes), instructor pages, a My Learning page, learner progress tracking, product analytics with PostHog, the video transcript and chapter ingestion, the search config, and the search experience. Build nothing beyond that. Do not overbuild.
 
@@ -192,3 +192,7 @@ After you implement, run the type check and lint at minimum, add a build when ro
 # 14. When in doubt
 
 Keep it small. Use the relevant skill. Preserve the server and client boundaries and the private token rule. Match the provided UI exactly. Get specifics from setup and config instead of hardcoding them. Save a prompt and get approval before coding. Run the checks. Share exact test steps.
+
+## Context files
+
+- [studio/AGENTS.md](studio/AGENTS.md): standalone Sanity Studio conventions, commands, and schema boundaries.

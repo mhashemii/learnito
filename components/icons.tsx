@@ -17,6 +17,7 @@ export type IconName =
   | "lock"
   | "play"
   | "search"
+  | "star"
   | "target"
   | "user";
 
@@ -146,6 +147,7 @@ export function Icon({ name, filled = false, className, ...props }: IconProps) {
           <path d="m15.5 15.5 4 4" {...strokeProps} />
         </>
       )}
+      {name === "star" && <path d="m12 3.5 2.65 5.37 5.93.86-4.29 4.18 1.01 5.9L12 17.02l-5.3 2.79 1.01-5.9-4.29-4.18 5.93-.86L12 3.5Z" {...strokeProps} />}
       {name === "target" && (
         <>
           <circle cx="12" cy="12" r="8.5" {...strokeProps} />
